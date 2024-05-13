@@ -62,6 +62,7 @@ impl State {
             // Savepoint only makes sense within a transaction and doesn't change the transaction kind
             (State::TxnReadOnly, StmtKind::Savepoint) => State::TxnReadOnly,
             (State::Txn, StmtKind::Savepoint) => State::Txn,
+            (State::Init, StmtKind::Savepoint) => State::Txn,
             (_, StmtKind::Savepoint) => State::Invalid,
             // Releasing a savepoint only makes sense inside a transaction and it doesn't change its state
             (State::TxnReadOnly, StmtKind::Release) => State::TxnReadOnly,
